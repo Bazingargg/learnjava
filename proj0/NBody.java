@@ -29,8 +29,70 @@ public class NBody {
 		String filename = args[2];
 		double radius = readRadius(filename);
 		Planet[] planets = readPlanets(filename);
-
-		
+		StdDraw.setScale(-radius, radius);
+		StdDraw.picture(0, 0, "images/starfield.jpg"); 
+		// 成功了，路径上的“ ./ ”可有可没有，以及我把背景画出来了
+		// 先画背景，再画星球，这样就不会cover掉。
+		for (Planet p : planets) {
+			p.draw();
+		}
+		StdDraw.enableDoubleBuffering();
+		double time = 0.0;
+		while (time < T) {
+			double[] xForces = new double[planets.length];
+			double[] yForces = new double[planets.length];
+			for (int i = 0; i < planets.length; i++) {
+				xForces[i] = planets[i].calcNetForceExertedByX(planets);
+				yForces[i] = planets[i].calcNetForceExertedByY(planets);
+			}
+			for (int i = 0; i < planets.length; i++){
+				planets[i].update(dt, xForces[i], yForces[i]);
+			}
+			StdDraw.clear();
+			StdDraw.picture(0, 0, "images/starfield.jpg");
+			for (Planet p : planets) {
+				p.draw();
+			}
+			StdDraw.show();
+			StdDraw.pause(10);
+			time = time + dt;
+		}
+		StdOUt.printf("%d\n", planets.length);
+		StdOUt.printf("%.2e\n", radius);
+		for (int i = 0; i < planets.length; i++) {
+			StdOUt.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+							planets[i].xxPos, planets[i].yyPos, planets[i].xxVel, 
+							planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
+		}
 	}
-
+		
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
