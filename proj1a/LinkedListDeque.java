@@ -1,5 +1,5 @@
 public class LinkedListDeque<T> {
-    private class<T> NodePoint {
+    private class NodePoint {
         T item;
         NodePoint prev;
         NodePoint next;
@@ -15,18 +15,23 @@ public class LinkedListDeque<T> {
     private NodePoint sentinel;  //只有一个哨兵就够了，然后利用循环的形式
 
     public LinkedListDeque(T x) {
-        size = 0;
+        size = 1;
         sentinel = new NodePoint(x);
-        sentinel.prev = sentinel;
-        sentinel.next = sentinel;
+        NodePoint first = new NodePoint(x);
+        first.prev = sentinel;
+        first.next = sentinel;
+        sentinel.prev = first;
+        sentinel.next = first;
     }
 
     public LinkedListDeque() {
         size = 0;
-        sentinel = null;
+        sentinel = new NodePoint(null);
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
     }
 
-
+    /** 问题是如果建立的是一个空链，添加第一个元素的时候怎么操作*/
     public void addFirst(T item) {
         size += 1;
         NodePoint point = new NodePoint(item);
@@ -46,7 +51,7 @@ public class LinkedListDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (sentinel == null) return true;
+        if (sentinel.next == sentinel) return true;
         return false;
     }
 
@@ -54,24 +59,62 @@ public class LinkedListDeque<T> {
         return size;
     }
 
-    /** 为了遍历输出队列的值，感觉需要一个辅助函数*/
+
+
+    /** 为了遍历输出队列的值，感觉需要一个辅助函数
+     * 仔细想想，好像不需要？*/
     public void printDeque() {
-        for (T )
+         NodePoint pt = sentinel;
+         if (pt.next == sentinel) return;
+         while (pt != sentinel) {
+             if (pt.next ==sentinel) {
+                 System.out.print(pt.item);
+                 return;
+             }
+             System.out.print(pt.item + " ");
+             pt = pt.next;
+         }
     }
 
     public T removeFirst() {
-        ...
+        if(sentinel.next == sentinel) return null;
+        size -= 1;
+        NodePoint pt = sentinel;
+        pt = pt.next;
+        sentinel.next = pt.next;
+        pt.next.prev = sentinel;
+        return pt.item;
     }
 
     public T removeLast() {
-        ...
+        if (sentinel.next == sentinel) return null;
+        size -= 1;
+        NodePoint pt = sentinel;
+        pt = pt.prev;
+        pt.prev.next = sentinel;
+        sentinel.prev = pt.prev;
+        return pt.item;
     }
 
     public T get(int index) {
-
+        NodePoint pt = sentinel;
+        int count = 0;
+        while (count <= index) {
+            pt = pt.next;
+            count += 1;
+        }
+        return pt.item;
     }
 
+    /**其实不用这么死板，可以搞个辅助函数*/
     public T getRecursive(int index) {
+        return getRecursive(index, sentinel);
+    }
 
+    public T getRecursive(int index, NodePoint sentinel) {
+        if (index == 0) {
+            return sentinel.next.item;
+        }
+        return getRecursive(index-1, sentinel.next);
     }
 }
