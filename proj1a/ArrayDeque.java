@@ -7,19 +7,27 @@ public class ArrayDeque<T> {
 
 	public ArrayDeque() {
 		size = 0;
-		T[] items = new items[8];
+		// 强制类型转换，为了更好的使用范型
+		items = (T[]) new Object[8];
 		nextFirst = 0;
 		nextLast = 1;
 		maxSize = 8;
 	}
+	/** 完成这些基本功能后，要不要让ArrayDequq能够自动增长*/
 
 	public ArrayDeque(ArrayDeque other) {
 		size = other.size;
 		nextFirst = other.nextFirst;
 		nextLast = other.nextLast;
-		T[] items = new T[other.maxSize];
-		
+		items = (T[]) new Object[other.maxSize];
+		int first = nextFirst;
+		while(first != nextLast) {
+			items[add(first)] = (T) other.items[add(first)];
+			first = add(first);
+		}
 	}
+
+	
 
 	public int size() {
 		return size;
@@ -60,18 +68,19 @@ public class ArrayDeque<T> {
 
 	public void printDeque() {
 		if (isEmpty()) return;
-		int pt = nextFirst;
+		int pt = add(nextFirst);
 		while (pt !=nextLast) {
-			if (pt = minus(nextlast)) {
+			if (pt == minus(nextLast)) {
 				System.out.print(items[pt]);
+				break;
 			}
-			System.out.print(items[pt] + ' ');
+			System.out.print(items[pt] + " ");
 			pt = add(pt);
 		}
 	}
 
 	public T removeFirst() {
-		if (isEmpty()) return;
+		if (isEmpty()) return null;
 		size -= 1;
 		T first = items[add(nextFirst)];
 		items[add(nextFirst)] = null;
@@ -80,7 +89,7 @@ public class ArrayDeque<T> {
 	}
 
 	public T removeLast() {
-		if (isEmpty()) renturn;
+		if (isEmpty()) return null;
 		size -= 1;
 		T last = items[minus(nextLast)];
 		items[minus(nextLast)] = null;
@@ -97,6 +106,25 @@ public class ArrayDeque<T> {
 			count += 1;
 		}
 		return items[pt];
+	}
+
+	public static void main(String[] args) {
+		ArrayDeque<String> test = new ArrayDeque<>();
+		test.addFirst("you ");
+		test.addLast("are ");
+		if (!test.isEmpty()) {
+			System.out.println("it is not null!");
+		}
+		System.out.println("the size of test is: " + test.size());
+		test.addLast("good!");
+		test.printDeque();
+		test.removeFirst();
+		test.removeLast();
+		System.out.println();
+		test.printDeque();
+		System.out.println();
+		System.out.println(test.get(0));
+
 	}
 
 }
