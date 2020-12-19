@@ -31,6 +31,16 @@ public class LinkedListDeque<T> {
         sentinel.next = sentinel;
     }
 
+    public LinkedListDeque(LinkedListDeque other) {
+        sentinel = new NodePoint(null);
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
+        size = 0;
+        for (int i = 0; i < other.size(); i += 1) {
+            addLast((T) other.get(i));
+        }
+    }
+
     /** 问题是如果建立的是一个空链，添加第一个元素的时候怎么操作*/
     public void addFirst(T item) {
         size += 1;
@@ -117,4 +127,6 @@ public class LinkedListDeque<T> {
         }
         return getRecursive(index-1, sentinel.next);
     }
+
+
 }
