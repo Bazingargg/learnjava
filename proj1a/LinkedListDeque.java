@@ -74,20 +74,22 @@ public class LinkedListDeque<T> {
     /** 为了遍历输出队列的值，感觉需要一个辅助函数
      * 仔细想想，好像不需要？*/
     public void printDeque() {
-         NodePoint pt = sentinel;
-         if (pt.next == sentinel) return;
-         while (pt != sentinel) {
-             if (pt.next ==sentinel) {
-                 System.out.print(pt.item);
-                 return;
+        NodePoint pt = sentinel;
+        if (pt.next == sentinel) return;
+        while (pt != sentinel) {
+            if (pt.next == sentinel) {
+                System.out.print(pt.item);
+                return;
              }
-             System.out.print(pt.item + " ");
-             pt = pt.next;
+            System.out.print(pt.item + " ");
+            pt = pt.next;
          }
     }
 
     public T removeFirst() {
-        if(sentinel.next == sentinel) return null;
+        if (sentinel.next == sentinel) {
+            return null;
+        }
         size -= 1;
         NodePoint pt = sentinel;
         pt = pt.next;
@@ -97,7 +99,9 @@ public class LinkedListDeque<T> {
     }
 
     public T removeLast() {
-        if (sentinel.next == sentinel) return null;
+        if (sentinel.next == sentinel) {
+            return null;
+        }
         size -= 1;
         NodePoint pt = sentinel;
         pt = pt.prev;
@@ -121,12 +125,11 @@ public class LinkedListDeque<T> {
         return getRecursive(index, sentinel);
     }
 
-    public T getRecursive(int index, NodePoint sentinel) {
+    private T getRecursive(int index, NodePoint sentinel) {
         if (index == 0) {
             return sentinel.next.item;
         }
-        return getRecursive(index-1, sentinel.next);
+        return getRecursive(index - 1, sentinel.next);
     }
-
 
 }

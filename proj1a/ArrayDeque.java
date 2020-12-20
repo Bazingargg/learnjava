@@ -1,5 +1,5 @@
 public class ArrayDeque<T> {
-	public T[] items;
+	private T[] items;
 	private int size;
 	private int nextFirst;
 	private int nextLast;
@@ -13,7 +13,25 @@ public class ArrayDeque<T> {
 		nextLast = 1;
 		maxSize = 8;
 	}
-	/** 完成这些基本功能后，要不要让ArrayDequq能够自动增长*/
+	/** 完成这些基本功能后，要不要让ArrayDequq能够自动增长
+	 * 这个函数有一些问题，并没有办法很好的增长*/
+	private void expand() {
+		int large = maxSize * 2;
+		T[] bigger = (T[]) new Object[large];
+		int p1 = add(nextFirst);
+		int p2 = add(nextFirst);//找到存放的第一个位置
+		int p = nextFirst;
+		for (int i = 0; i < maxSize - 1; i++) {
+			bigger[p1] = items[add(p)];
+			p1 += 1;
+			p = add(p);
+		}
+		maxSize = large;
+		items = bigger;
+		nextLast = p1; //nextFirst也需要更新
+		nextFirst = minus(p2);
+
+	}
 
 	public ArrayDeque(ArrayDeque other) {
 		size = other.size;
@@ -21,38 +39,46 @@ public class ArrayDeque<T> {
 		nextLast = other.nextLast;
 		items = (T[]) new Object[other.maxSize];
 		int first = nextFirst;
-		while(first != nextLast) {
+		while (first != nextLast) {
 			items[add(first)] = (T) other.items[add(first)];
 			first = add(first);
 		}
 	}
 
-	
+
 
 	public int size() {
 		return size;
 	}
 
-	public boolean isEmpty() {
-		if ((nextFirst + 1) % maxSize == nextLast) return true;
+	private boolean isEmpty() {
+		if ((nextFirst + 1) % maxSize == nextLast) {
+			return true;
+		}
 		return false;
 	}
 
-	public boolean isFull() {
-		if (nextLast == nextFirst) return true;
+	private boolean isFull() {
+		if (nextLast == nextFirst && maxSize - 1 == size) {
+			return true;
+		}
 		return false;
 	}
 
 	public void addFirst(T x) {
 		//如果满了的话函数直接返回
-		if (isFull()) return;
+		if (isFull()) {
+			expand();
+		}
 		size += 1;
 		items[nextFirst] = x;
 		nextFirst = minus(nextFirst);
 	}
 
 	public void addLast(T x) {
-		if (isFull()) return;
+		if (isFull()) {
+			expand();
+		}
 		size += 1;
 		items[nextLast] = x;
 		nextLast = add(nextLast);
@@ -67,10 +93,12 @@ public class ArrayDeque<T> {
 	}
 
 	public void printDeque() {
-		if (isEmpty()) return;
+		if (isEmpty()) {
+			return;
+		}
 		int pt = add(nextFirst);
-		while (pt !=nextLast) {
-			if (pt == minus(nextLast)) {
+		while (pt != nextLast) {
+			if (pt == minus(nextLast)) { //这部分写错了 应该用的first
 				System.out.print(items[pt]);
 				break;
 			}
@@ -80,7 +108,9 @@ public class ArrayDeque<T> {
 	}
 
 	public T removeFirst() {
-		if (isEmpty()) return null;
+		if (isEmpty()) {
+			return null;
+		}
 		size -= 1;
 		T first = items[add(nextFirst)];
 		items[add(nextFirst)] = null;
@@ -89,7 +119,9 @@ public class ArrayDeque<T> {
 	}
 
 	public T removeLast() {
-		if (isEmpty()) return null;
+		if (isEmpty()) {
+			return null;
+		}
 		size -= 1;
 		T last = items[minus(nextLast)];
 		items[minus(nextLast)] = null;
@@ -98,7 +130,9 @@ public class ArrayDeque<T> {
 	}
 
 	public T get(int index) {
-		if (index > size - 1) return null;
+		if (index > maxSize - 1) {
+			return null;
+		}
 		int count = 0;
 		int pt = nextFirst;
 		while (count < index + 1) {
@@ -110,21 +144,30 @@ public class ArrayDeque<T> {
 
 	public static void main(String[] args) {
 		ArrayDeque<String> test = new ArrayDeque<>();
-		test.addFirst("you ");
-		test.addLast("are ");
+		test.addFirst("1 ");
+		test.addLast("2 ");
+		test.addLast("3 ");
+		test.addLast("4 ");
+		test.addLast("5 ");
+		test.addLast("6 ");
+		test.addLast("7 ");
+		test.addLast("8 ");
+		test.addLast("9");
+
 		if (!test.isEmpty()) {
 			System.out.println("it is not null!");
 		}
-		System.out.println("the size of test is: " + test.size());
-		test.addLast("good!");
+		System.out.println("the maxsize of test is: " + test.maxSize);
 		test.printDeque();
-		test.removeFirst();
-		test.removeLast();
+		test.removeFirst(); // 删掉1
+		test.removeLast(); //删掉9
 		System.out.println();
 		test.printDeque();
 		System.out.println();
 		System.out.println(test.get(0));
+		System.out.println(test.get(1));
+		System.out.println(test.get(2));
+		System.out.println(test.get(3));
 
 	}
-
 }
