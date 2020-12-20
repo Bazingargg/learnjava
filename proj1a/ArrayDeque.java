@@ -142,32 +142,5 @@ public class ArrayDeque<T> {
 		return items[pt];
 	}
 
-	public static void main(String[] args) {
-		ArrayDeque<String> test = new ArrayDeque<>();
-		test.addFirst("1 ");
-		test.addLast("2 ");
-		test.addLast("3 ");
-		test.addLast("4 ");
-		test.addLast("5 ");
-		test.addLast("6 ");
-		test.addLast("7 ");
-		test.addLast("8 ");
-		test.addLast("9");
 
-		if (!test.isEmpty()) {
-			System.out.println("it is not null!");
-		}
-		System.out.println("the maxsize of test is: " + test.maxSize);
-		test.printDeque();
-		test.removeFirst(); // 删掉1
-		test.removeLast(); //删掉9
-		System.out.println();
-		test.printDeque();
-		System.out.println();
-		System.out.println(test.get(0));
-		System.out.println(test.get(1));
-		System.out.println(test.get(2));
-		System.out.println(test.get(3));
-
-	}
 }

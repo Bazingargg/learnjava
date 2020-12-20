@@ -14,31 +14,12 @@ public class LinkedListDeque<T> {
     private int size;    //需要全局维护的变量
     private NodePoint sentinel;  //只有一个哨兵就够了，然后利用循环的形式
 
-    public LinkedListDeque(T x) {
-        size = 1;
-        sentinel = new NodePoint(x);
-        NodePoint first = new NodePoint(x);
-        first.prev = sentinel;
-        first.next = sentinel;
-        sentinel.prev = first;
-        sentinel.next = first;
-    }
 
     public LinkedListDeque() {
         size = 0;
         sentinel = new NodePoint(null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
-    }
-
-    public LinkedListDeque(LinkedListDeque other) {
-        sentinel = new NodePoint(null);
-        sentinel.prev = sentinel;
-        sentinel.next = sentinel;
-        size = 0;
-        for (int i = 0; i < other.size(); i += 1) {
-            addLast((T) other.get(i));
-        }
     }
 
     /** 问题是如果建立的是一个空链，添加第一个元素的时候怎么操作*/
