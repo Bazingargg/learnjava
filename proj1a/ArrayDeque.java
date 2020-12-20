@@ -19,7 +19,7 @@ public class ArrayDeque<T> {
 		int large = maxSize * 2;
 		T[] bigger = (T[]) new Object[large];
 		int p1 = add(nextFirst);
-		int p2 = add(nextFirst);//找到存放的第一个位置
+		int p2 = add(nextFirst); //找到存放的第一个位置
 		int p = nextFirst;
 		for (int i = 0; i < maxSize - 1; i++) {
 			bigger[p1] = items[add(p)];
@@ -51,7 +51,7 @@ public class ArrayDeque<T> {
 		return size;
 	}
 
-	private boolean isEmpty() {
+	public boolean isEmpty() {
 		if ((nextFirst + 1) % maxSize == nextLast) {
 			return true;
 		}

@@ -61,7 +61,7 @@ public class LinkedListDeque<T> {
             if (pt.next == sentinel) {
                 System.out.print(pt.item);
                 return;
-             }
+            }
             System.out.print(pt.item + " ");
             pt = pt.next;
          }
