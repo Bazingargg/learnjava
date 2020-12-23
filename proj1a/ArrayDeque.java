@@ -4,6 +4,7 @@ public class ArrayDeque<T> {
 	private int nextFirst;
 	private int nextLast;
 	private int maxSize;
+	private static double ratio = 0.25;
 
 	public ArrayDeque() {
 		size = 0;
@@ -31,6 +32,25 @@ public class ArrayDeque<T> {
 		nextLast = p1; //nextFirst也需要更新
 		nextFirst = minus(p2);
 
+	}
+
+	private void resize() {
+		/** 希望能将数组长度自动缩小，
+		 * 如果达到一定的比率自动调整*/
+		if ((double) size / maxSize >= ratio) {
+			return;
+		}
+		int size = maxSize / 4;
+		T[] smaller = (T[]) new Object[size];
+		int count = 0;
+		while (count < size) {
+			smaller[count] = items[add(nextFirst)];
+			count += 1;
+		}
+		nextFirst = maxSize - 1;
+		nextLast = size;
+		maxSize = maxSize / 4;
+		items = smaller;
 	}
 
 	public ArrayDeque(ArrayDeque other) {
@@ -111,6 +131,7 @@ public class ArrayDeque<T> {
 		if (isEmpty()) {
 			return null;
 		}
+		resize();
 		size -= 1;
 		T first = items[add(nextFirst)];
 		items[add(nextFirst)] = null;
@@ -122,6 +143,7 @@ public class ArrayDeque<T> {
 		if (isEmpty()) {
 			return null;
 		}
+		resize();
 		size -= 1;
 		T last = items[minus(nextLast)];
 		items[minus(nextLast)] = null;
@@ -141,6 +163,5 @@ public class ArrayDeque<T> {
 		}
 		return items[pt];
 	}
-
 
 }

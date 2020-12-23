@@ -42,7 +42,9 @@ public class LinkedListDeque<T> {
     }
 
     public boolean isEmpty() {
-        if (sentinel.next == sentinel) return true;
+        if (sentinel.next == sentinel) {
+            return true;
+        }
         return false;
     }
 
@@ -56,7 +58,9 @@ public class LinkedListDeque<T> {
      * 仔细想想，好像不需要？*/
     public void printDeque() {
         NodePoint pt = sentinel;
-        if (pt.next == sentinel) return;
+        if (pt.next == sentinel) {
+            return;
+        }
         while (pt != sentinel) {
             if (pt.next == sentinel) {
                 System.out.print(pt.item);
@@ -64,7 +68,7 @@ public class LinkedListDeque<T> {
             }
             System.out.print(pt.item + " ");
             pt = pt.next;
-         }
+        }
     }
 
     public T removeFirst() {
