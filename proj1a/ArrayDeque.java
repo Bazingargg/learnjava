@@ -40,12 +40,14 @@ public class ArrayDeque<T> {
 		if ((double) size / maxSize >= ratio) {
 			return;
 		}
-		int size = maxSize / 4;
-		T[] smaller = (T[]) new Object[size];
+		int large = maxSize / 4;
+		T[] smaller = (T[]) new Object[large];
 		int count = 0;
+		int pt = add(nextFirst);
 		while (count < size) {
-			smaller[count] = items[add(nextFirst)];
+			smaller[count] = items[pt];
 			count += 1;
+			pt = add(pt);
 		}
 		nextFirst = maxSize - 1;
 		nextLast = size;
