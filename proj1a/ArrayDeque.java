@@ -40,34 +40,20 @@ public class ArrayDeque<T> {
 		if ((double) size / maxSize >= ratio) {
 			return;
 		}
-		int large = maxSize / 4;
-		T[] smaller = (T[]) new Object[large];
+		int small = maxSize / 4;
+		T[] smaller = (T[]) new Object[small];
 		int count = 0;
 		int pt = add(nextFirst);
-		while (count < size) {
+		while (count < size) { //将数组元素进行复制
 			smaller[count] = items[pt];
 			count += 1;
 			pt = add(pt);
 		}
+		maxSize = maxSize / 4;
 		nextFirst = maxSize - 1;
 		nextLast = size;
-		maxSize = maxSize / 4;
 		items = smaller;
 	}
-
-	public ArrayDeque(ArrayDeque other) {
-		size = other.size;
-		nextFirst = other.nextFirst;
-		nextLast = other.nextLast;
-		items = (T[]) new Object[other.maxSize];
-		int first = nextFirst;
-		while (first != nextLast) {
-			items[add(first)] = (T) other.items[add(first)];
-			first = add(first);
-		}
-	}
-
-
 
 	public int size() {
 		return size;
