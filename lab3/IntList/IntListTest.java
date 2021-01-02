@@ -53,6 +53,7 @@ public class IntListTest {
         IntList A = IntList.of(1, 2, 3);
         IntList B = IntList.of(4, 5, 6);
         IntList exp = IntList.of(1, 2, 3, 4, 5, 6);
+
         assertEquals(exp, IntList.dcatenate(A, B));
         assertEquals(IntList.of(1, 2, 3, 4, 5, 6), A);
     }
@@ -65,6 +66,20 @@ public class IntListTest {
         assertEquals(exp, IntList.catenate(A, B));
         assertEquals(IntList.of(1, 2, 3), A);
     }
+
+    @Test(timeout = 1000)
+    public void testReverse() {
+        IntList A = IntList.of(1, 2, 3, 4);
+        IntList B = IntList.of(100);
+        IntList empty = IntList.of();
+        IntList expA = IntList.of(4, 3, 2, 1);
+        IntList expB = IntList.of(100);
+        assertEquals(expA, IntList.reverse(A));
+        assertEquals(expB, IntList.reverse(B));
+        assertNotEquals(expA, A);
+        assertEquals(null, IntList.reverse(empty));
+    }
+
 
     /** If you're running this from the command line, you'll need
       * to add a main method. See ArithmeticTest.java for an
