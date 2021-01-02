@@ -4,7 +4,7 @@ public class LinkedListDeque<T> {
         NodePoint prev;
         NodePoint next;
 
-        public NodePoint(T x) {
+        NodePoint(T x) {
             item = x;
             prev = null;
             next = null;
