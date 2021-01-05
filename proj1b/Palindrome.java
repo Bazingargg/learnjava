@@ -49,7 +49,7 @@ public class Palindrome {
         if (word.isEmpty() || word.size() == 1) {
             return true;
         }
-        if (cc.equalChars(word.removeFirst(), word.removeLast()) != true) {
+        if (!cc.equalChars(word.removeFirst(), word.removeLast())) {
             return false;
         }
         return isPalindromeHelper(word, cc);

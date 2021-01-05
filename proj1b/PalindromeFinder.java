@@ -5,12 +5,16 @@ public class PalindromeFinder {
         int minLength = 4;
         In in = new In("../library-sp18/data/words.txt");
         Palindrome palindrome = new Palindrome();
+        CharacterComparator offBy1 = new OffByOne();
+        int count = 0;
 
         while (!in.isEmpty()) {
             String word = in.readString();
-            if (word.length() >= minLength && palindrome.isPalindrome(word)) {
+            if (word.length() >= minLength && palindrome.isPalindrome(word, offBy1)) {
                 System.out.println(word);
+                count += 1;
             }
         }
+        System.out.println(count);
     }
 }
